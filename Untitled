@@ -1,0 +1,49 @@
+what is docker WORKDIR command?
+what is COPY . .
+
+
+
+
+notes------
+--building, running, monitoring, stopping, and removing
+docker images
+docker image ls
+docker build
+docker logs -f <container-id>
+docker run -d (detached mode) -p (portnumber:portnumber) -v (volume to mount)
+docker ps
+exec <process id>
+docker stop <process id>
+docker rm <process id>
+
+
+--sharing on docker hub or some central repository
+docker login -u YOUR-USER-NAME
+docker tag getting-started YOUR-USER-NAME/getting-started ##tag existing image to match dockerhub repo
+docker push YOUR-USER-NAME/getting-started
+
+
+--using volumes to persist data
+docker volume create todo-db ##create a named volume
+docker run -dp 3000:3000 -v todo-db:/etc/todos getting-started ##mount this volume and file to the cont.
+docker volume inspect ##to inspect named volumes. Mountpoint is the actual location on the disk where the data is stored
+
+bind mounts allow you to bind specific directories on the host machine to the running container whereas named volumes create a volume in one place and allows you to mount it as needed. for example, you can bind mount the source code for an app to a running container, this allows you to edit the source code while
+the container is running. if there is another process that watches for source code changes and restarts the app, then you can edit the container in real time. they're the same thing, except bind mounts allows you to mount from anywhere in the host OS
+
+
+--multiple containers
+two containers can talk to eachother iff they're on the same network. each container gets own ip address
+docker network create todo-app ##creates a network
+
+
+
+--docker compose defines various services
+each service runs its own image, can take inputs such as commands to run, set a working directory, open ports, and have its own set of environment variables.
+
+docker compose creates a network for all services listed in its docker-compose.yml file and registers an alias for each service in accordance with the service name.
+
+
+--additional helpful docker commands
+docker scan - scans an image for security vulnerabilities
+docker image history - shows the distinct layers that make up an image
